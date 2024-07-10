@@ -175,7 +175,7 @@ function App() {
             <div className="flex justify-center space-x-4 mb-6">
               <button
                 onClick={() => handleFilterTasks("all")}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                className="px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring focus:border-gray-600"
               >
                 All
               </button>
@@ -293,7 +293,7 @@ function App() {
               </div>
               <button
                 type="submit"
-                className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-blue-500 focus:ring-opacity-50"
+                className="w-full px-4 py-2 bg-gray-700 text-white rounded-md hover:bg-gray-800 focus:outline-none focus:ring focus:ring-offset-2 focus:ring-gray-500 focus:ring-opacity-50"
               >
                 {editingTask ? "Update Task" : "Add Task"}
               </button>
