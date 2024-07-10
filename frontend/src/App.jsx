@@ -20,6 +20,7 @@ function App() {
   const [editingTask, setEditingTask] = useState(null);
   const [imagePerc, setImagePerc] = useState(0);
   const [imageError, setImageError] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     fetchTasks();
@@ -68,8 +69,20 @@ function App() {
     );
   };
 
+  const validateForm = () => {
+    let errors = {};
+    if (!newTaskHeading) errors.heading = "Heading is required";
+    if (!newTaskDescription) errors.description = "Description is required";
+    if (!newTaskDate) errors.date = "Date is required";
+    if (!newTaskTime) errors.time = "Time is required";
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleAddTask = async (e) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
 
     const newTask = {
       heading: newTaskHeading,
@@ -171,7 +184,6 @@ function App() {
               Task Manager
             </h1>
 
-            {/* Task Filter */}
             <div className="flex justify-center space-x-4 mb-6">
               <button
                 onClick={() => handleFilterTasks("all")}
@@ -207,6 +219,9 @@ function App() {
               <h2 className="text-lg font-semibold text-center">
                 {editingTask ? "Edit Task" : "Add Task"}
               </h2>
+              {formErrors.heading && (
+                <p className="text-red-500 text-sm">{formErrors.heading}</p>
+              )}
               <input
                 type="text"
                 placeholder="Task heading"
@@ -214,12 +229,18 @@ function App() {
                 onChange={(e) => setNewTaskHeading(e.target.value)}
                 className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               />
+              {formErrors.description && (
+                <p className="text-red-500 text-sm">{formErrors.description}</p>
+              )}
               <textarea
                 placeholder="Task description"
                 value={newTaskDescription}
                 onChange={(e) => setNewTaskDescription(e.target.value)}
                 className="w-full h-24 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
               ></textarea>
+              {formErrors.date && (
+                <p className="text-red-500 text-sm">{formErrors.date}</p>
+              )}
               <div className="flex flex-wrap gap-2">
                 <div className="w-full md:w-1/2">
                   <label
@@ -236,6 +257,11 @@ function App() {
                     className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
                   />
                 </div>
+                {formErrors.time && (
+                  <p className="text-red-500 text-sm w-full md:w-1/2">
+                    {formErrors.time}
+                  </p>
+                )}
                 <div className="w-full md:w-1/2">
                   <label
                     htmlFor="taskTime"
@@ -253,6 +279,12 @@ function App() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-2">
+                <label
+                  htmlFor="taskImage"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Image (optional)
+                </label>
                 <div className="w-full">
                   <input
                     type="file"
@@ -299,7 +331,6 @@ function App() {
               </button>
             </form>
 
-            {/* Task List */}
             <div className="space-y-4 mt-6">
               {filteredTasks.map((task) => (
                 <div
